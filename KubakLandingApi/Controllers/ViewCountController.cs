@@ -9,7 +9,7 @@ namespace KubakLandingApi.Controllers;
 public class ViewCounterController : ControllerBase
 {
     private readonly ILogger<ViewCounterController> _logger;
-    int? count;
+    Counter? counter;
 
     public ViewCounterController(ILogger<ViewCounterController> logger)
     {
@@ -22,31 +22,31 @@ public class ViewCounterController : ControllerBase
         var data = await Instance.From<Counter>().Get();
         if (data.Models.Count > 0)
         {
-            count = data.Models.FirstOrDefault(new Counter { Id = 1, Count = 1, UpdatedAt = DateTime.Now }).Count;
+            counter = data.Models.FirstOrDefault(new Counter { Id = 1, Count = 1, UpdatedAt = DateTime.Now });
         }
     }
 
     [HttpGet(Name = "GetViewCount")]
-    public async Task<int> Get()
+    public async Task<Counter> Get()
     {
         return await AddOneAndReturnNewCount();
     }
 
-    async Task<int> AddOneAndReturnNewCount()
+    async Task<Counter> AddOneAndReturnNewCount()
     {
-        if (count == null)
+        if (counter == null)
         {
             await UpdateCounter();
         }
-        if (count is int valueOfCount)
+        if (counter is Counter valueOfCount)
         {
-            var k = await Instance.From<Counter>().Update(new Counter { Id = 1, Count = valueOfCount + 1, UpdatedAt = DateTime.Now });
-            return k.Models.FirstOrDefault(new Counter { Id = 1, Count = 1, UpdatedAt = DateTime.Now }).Count;
+            var k = await Instance.From<Counter>().Update(new Counter { Id = 1, Count = valueOfCount.Count + 1, UpdatedAt = DateTime.Now });
+            return k.Models.FirstOrDefault(new Counter { Id = 1, Count = 1, UpdatedAt = DateTime.Now });
         }
         else
         {
             var k = await Instance.From<Counter>().Insert(new Counter { Id = 1, Count = 1, UpdatedAt = DateTime.Now });
-            return 1;
+            return new Counter { Id = 1, Count = 1, UpdatedAt = DateTime.Now };
         }
     }
 }
