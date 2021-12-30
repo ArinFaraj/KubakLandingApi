@@ -16,4 +16,3 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 
 ENTRYPOINT ["dotnet", "KubakLandingApi.dll"]
-# CMD ASPNETCORE_URLS=http://*:$PORT dotnet KubakLandingApi.dll
