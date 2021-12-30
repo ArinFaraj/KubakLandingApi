@@ -14,5 +14,6 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-focal
 WORKDIR /app
 COPY --from=build-env /app/out .
+COPY heroku_run.sh .
 
 ENTRYPOINT ["dotnet", "KubakLandingApi.dll"]
