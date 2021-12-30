@@ -2,4 +2,4 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: /bin/sh dotnet\ KubakLandingApi.dll
+  web: dotnet KubakLandingApi.dll
