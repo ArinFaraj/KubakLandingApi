@@ -14,5 +14,6 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build-env /app/out .
-# ENTRYPOINT ["dotnet", "KubakLandingApi.dll"]
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet KubakLandingApi.dll
+
+ENTRYPOINT ["dotnet", "KubakLandingApi.dll"]
+# CMD ASPNETCORE_URLS=http://*:$PORT dotnet KubakLandingApi.dll
