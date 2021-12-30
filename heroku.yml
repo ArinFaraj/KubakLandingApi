@@ -2,4 +2,4 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: dotnet KubakLandingApi.dll
+  web: "ASPNETCORE_URLS=http://*:$PORT dotnet KubakLandingApi.dll"
