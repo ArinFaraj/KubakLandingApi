@@ -1,0 +1,29 @@
+name: Deploy to Heroku
+
+on:
+  push:
+    branches:
+      - main
+    # paths-ignore:
+    #   - "*.md"
+
+env:
+  APP_NAME: kubak-dev
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+concurrency:
+  group: heroku-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Publish
+        run: heroku container:push web -a $APP_NAME
+
+      - name: Release
+        run: heroku container:release web -a $APP_NAME
